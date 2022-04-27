@@ -20,11 +20,25 @@ public class MainTest {
 		//lay acocunt theo id
 		Account account;
 		try {
-			account = controller.getAccountById(-10);
+			account = controller.getAccountById(1);
 			System.out.println(account);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
+		
+		
+//		try {
+//			Account account = controller.deleteAccountById(12);
+//			
+//			if (account != null) {
+//				System.err.println("Xoa thanh cong");
+//			}else {
+//				System.err.println("Khong tim thay account muon xoa");
+//			}
+//			
+//		} catch (Exception e) {
+//			System.err.println(e.getMessage());
+//		}
 		
 	}
 	

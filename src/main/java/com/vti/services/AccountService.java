@@ -24,4 +24,11 @@ public class AccountService {
 		return repository.getById(id);
 	}
 
+	public Account deleteAccountById(int id) throws Exception {
+		if(id < 0) {
+			throw new Exception("ID khong hop le");
+		}
+		return repository.deleteAccountById(id);
+	}
+
 }

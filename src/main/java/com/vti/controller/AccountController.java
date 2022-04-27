@@ -23,5 +23,10 @@ public class AccountController {
 	public Account getAccountById(int id) throws Exception {
 		return service.getAccountById(id);
 	}
+
+	public Account deleteAccountById(int id) throws Exception {
+		return service.deleteAccountById(id);
+		
+	}
 	
 }

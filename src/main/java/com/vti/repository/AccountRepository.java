@@ -30,14 +30,14 @@ public class AccountRepository {
 		Session session = null;
 		try {
 			session = HibernateUntil.getFactory().openSession();
-			String hqlQuery = "FROM Account A WHERE A.id = ?2"; // Câu lệnh query trong Hibernate => HQL
-			// String hqlQuery = "FROM Account A WHERE A.id = :accountID";
-			// String hqlQuery = "FROM Account A WHERE A.id = " + id;
-			// String hqlQuery = String.format("FROM Account A WHERE A.id = %d", id);
-			Query<Account> query = session.createQuery(hqlQuery);
-			query.setParameter(2, id);
-			Account account = query.uniqueResult();
-			System.err.println(account.stringFormat());
+//			String hqlQuery = "FROM Account A WHERE A.id = ?2"; // Câu lệnh query trong Hibernate => HQL
+//			// String hqlQuery = "FROM Account A WHERE A.id = :accountID";
+//			// String hqlQuery = "FROM Account A WHERE A.id = " + id;
+//			// String hqlQuery = String.format("FROM Account A WHERE A.id = %d", id);
+//			Query<Account> query = session.createQuery(hqlQuery);
+//			query.setParameter(2, id);
+//			Account account = query.uniqueResult();
+			Account account = session.get(Account.class, id);
 
 			return account;
 		} finally {
@@ -86,6 +86,28 @@ public class AccountRepository {
 		session.getTransaction().commit();
 
 		session.close();
+	}
+
+	public Account deleteAccountById(int id) {
+		Session session = null;
+		try {
+			session = HibernateUntil.getFactory().openSession();
+			
+			//lấy dữ liệu trong data base 
+			Account account = session.get(Account.class, id);
+			if (account == null) {
+				return null;
+			}
+			session.beginTransaction();
+			session.delete(account);
+			session.getTransaction().commit();
+			
+			return account;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 }
