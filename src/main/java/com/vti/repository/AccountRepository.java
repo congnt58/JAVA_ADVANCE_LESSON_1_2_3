@@ -94,14 +94,13 @@ public class AccountRepository {
 			session = HibernateUntil.getFactory().openSession();
 			
 			//lấy dữ liệu trong data base 
-			Account account = session.get(Account.class, id);
+			Account account = session.load(Account.class, id);
 			if (account == null) {
 				return null;
 			}
 			session.beginTransaction();
 			session.delete(account);
 			session.getTransaction().commit();
-			
 			return account;
 		} finally {
 			if (session != null) {
