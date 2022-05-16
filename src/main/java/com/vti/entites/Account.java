@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,23 +20,29 @@ import javax.persistence.Transient;
 public class Account {
 
 	@Column(name = "AccountID")
-	@Id
+	@Id //khoa chinh
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "Email", length = 100, nullable = false, unique = true)
+	@Column(name = "Email", length = 120, nullable = false, unique = true)
 	private String email;
 
 	@Column(name = "Username")
 	private String username;
-
+	
 	@Column(name = "Fullname")
-	private String fullName;
+	private String fullName;	
+	
 
 	@Column(name = "CreateDate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "DepartmentID", referencedColumnName = "DepartmentID")
+	private Department department;
+
 	@Transient
 	private String gioiTinh;
 
@@ -49,8 +58,17 @@ public class Account {
 	}
 
 	// và phải có hàm getter/setter
+
 	public int getId() {
 		return id;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 
 	public void setId(int id) {
@@ -104,8 +122,8 @@ public class Account {
 	}
 
 	public String stringFormat() {
-		return String.format("%5d | %15s | %20s | %-30s | %20s", id, username, fullName, email,
-				createDate != null ? createDate.toString() : "null");
+		return String.format("%5d | %15s | %20s | %-30s | %20s | %20s", id, username, fullName, email,
+				createDate != null ? createDate.toString() : "null", department != null ? department.getName() : "null");
 	}
 
 }
